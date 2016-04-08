@@ -14,21 +14,11 @@ class TopRank
 				"X­Apple­Store­Front" => "143441­1,17"}
 
 
- 	#  	def Product.out_of_stock
-	# 	Rails.cache.fetch("out_of_stock_products", :expires_in => 5.minutes) do
-	# 		Product.all.joins(:inventory).conditions.where("inventory.quantity = 0")
-	# 	end
-	# end
-
-	# def competing_price
-	# 	Rails.cache.fetch("/product/#{id}-#{updated_at}/comp_price", :expires_in => 12.hours) do
-	# 		Competitor::API.find_price(id)
-	# 	end
-	# end
-
   def self.find(genreId, monetization, popId)
+  	raise ArgumentError, 'You must inform a genreId and monetization' unless (genreId && monetization)
+
   	Rails.cache.fetch("/top_rank/#{genreId}-#{monetization}-#{popId}/find", :expires_in => 4.hours) do
-  		top_rank_response = @@itunes_api.view_top({genreId:genreId, dataOnly: true, l: 'en'}, @@headers)
+  		top_rank_response = @@itunes_api.view_top({genreId:genreId, popId:popId, dataOnly: true, l: 'en'}, @@headers)
 
 		#get category name
 		category_name = top_rank_response['genre']['name']
@@ -60,15 +50,17 @@ class TopRank
 	#wait for the parallel calls to finish
 	# sleep 6
 	
-	return top_rank
+	top_rank
   end
 
-  def self.find_app_by_position(genreId, monetization, rankPosition)
-  	top_rank = TopRank.find(genreId, monetization, nil)
+  def self.find_app_by_position(genreId, monetization, popId, rankPosition)
+  	rankPosition = Integer(rankPosition)
+  	
+  	top_rank = TopRank.find(genreId, monetization, popId)
 
   	appId = top_rank.apps[rankPosition - 1]
 
-  	return App.find_by_id(appId)
+  	App.find_by_id(appId)
   end
 
   def self.find_top_publishers(genreId, monetization, popId)
@@ -106,7 +98,7 @@ class TopRank
 
 		end
 		#wait for the parallel calls to finish
-		sleep 9
+		sleep 10
 		
 		#sort top publishers list by number of apps they have on top rank
 		top_publishers = top_publishers.sort_by {|hash| hash.numberOfApps}.reverse!
