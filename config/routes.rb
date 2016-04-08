@@ -2,11 +2,14 @@ require 'api_constraints'
 
 AppstoreInfoApi::Application.routes.draw do
   # Api definition
-  namespace :api, defaults: { format: :json },
-                              constraints: { subdomain: 'api' }, path: '/'  do
-    scope module: :v1,
-              constraints: ApiConstraints.new(version: 1, default: true) do
-      # We are going to list our resources here
+  scope '/api' do
+    scope '/v1' do
+      scope '/top_rank' do
+        get '/' => 'api/v1/top_ranks#index'
+        scope '/publishers' do
+          get '/' => 'api/v1/top_ranks#top_publishers'
+        end
+      end
     end
   end
 end
