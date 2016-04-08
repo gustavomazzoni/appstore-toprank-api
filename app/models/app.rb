@@ -4,10 +4,12 @@ class App
   include ActiveModel::Model
   attr_accessor :appId, :appName, :description, :smallIconUrl, 
   				:publisherName, :price, :versionNumber, :averageUserRating
+  @@itunes_api = ITunesAPI.new
 
   def self.find_by_id(id)
-  	itunes_api = ITunesAPI.new
-	app_metadata = itunes_api.lookup(:id => id)
+  	app_metadata = @@itunes_api.lookup(:id => id)
+
+  	raise ArgumentError, 'Invalid id argument' if app_metadata.nil?
 	
 	# Create app with metadata
 	if !app_metadata.empty?
