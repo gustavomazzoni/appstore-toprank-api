@@ -17,6 +17,24 @@ Create a REST API that pulls the Apple App Store top lists from US and provides 
 * Consider as many possible inputs as possible and test for edge cases
 * Develop the application using the best software development practices Quality of the code is the key.
 
+## Solution
+
+### Adopted to build and expose the API
+* For handling the communication with iTunes API was created a lib class named ITunesAPI.
+* To manage the business logic and creating the model object expected as response for the user was created tableless classes TopRank, App and Publisher representing the informations returned by the iTunes API.
+* To deal with everything related with request and response for this API was created Api::V1::TopRanksController representing the API interface for it's first version.
+* The router names was defined to expose an URL that indicates it's an API and it's versioned.
+
+### Adopted to optimize the API
+* Parallelism with Promise Gem to make external API calls and building the response in parallel. This have reduced the process time by 5x.
+* Cache with Rails.cache to store datas during 4 hours. This have minimized the external API calls a lot.
+
+
+Gems:
+* Rspec - for testing
+* HTTParty - for dealing with HTTP requests
+* [Promise](https://github.com/bhuga/promising-future) - for parallel operations using Future
+
 
 ## Running the application
 ### Download the project
