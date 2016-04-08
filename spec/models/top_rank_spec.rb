@@ -21,6 +21,12 @@ RSpec.describe TopRank do
 			expect(Rails.cache.read("/top_rank/#{@category_id}-#{@monetization}-#{@popId}/find")).to_not be_nil
 			expect(response.apps.size).to eq 200
 		end
+
+		it "raises ArgumentError when genreId and/or monetization is not informed as argument" do
+		  expect {
+		  	TopRank.find(nil, nil, @popId)
+		  }.to raise_error(ArgumentError)
+		end
 	end
 
 	describe "find_with_metadata" do
@@ -37,7 +43,7 @@ RSpec.describe TopRank do
 			#input values from user for testing
 			rankPosition = 3
 
-			response = TopRank.find_app_by_position(@category_id, @monetization, rankPosition)
+			response = TopRank.find_app_by_position(@category_id, @monetization, @popId, rankPosition)
 			
 			expect(response.appId).to_not be_nil
 		end
