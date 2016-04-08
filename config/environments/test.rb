@@ -37,5 +37,10 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  # Forces Rack::Lock to be added to fix Circular Dependency Errors in Rails Integration Tests
   config.allow_concurrency = false
+
+  # To use cache
+  config.action_controller.perform_caching = true
+  # config.cache_store = :memory_store
 end
