@@ -21,13 +21,13 @@ Create a REST API that pulls the Apple App Store top lists from US and provides 
 
 ### Adopted to build and expose the API
 * For handling the communication with iTunes API was created a lib class named ITunesAPI.
-* To manage the business logic and creating the model object expected as response for the user was created tableless classes TopRank, App and Publisher representing the informations returned by the iTunes API.
-* To deal with everything related with request and response for this API was created Api::V1::TopRanksController representing the API interface for it's first version.
+* To manage the business logic and creating the model object expected as response for the user it was created tableless models TopRank, App and Publisher representing the informations returned by the iTunes API.
+* To deal with everything related with HTTP request and response for this API was created Api::V1::TopRanksController representing the API interface for it's first version.
 * The router names was defined to expose an URL that indicates it's an API and it's versioned.
 
 ### Adopted to optimize the API
-* Parallelism with Promise Gem to make external API calls and building the response in parallel. This have reduced the process time by 5x.
-* Cache with Rails.cache to store datas during 4 hours. This have minimized the external API calls a lot.
+* Parallelism with Promise Gem to make parallel external API calls together with building the response. This have reduced the process time by 5x.
+* Cache with Rails.cache to store, during 4 hours, model objects with datas returned from external API calls. This have minimized the external API calls a lot.
 
 
 Gems:
