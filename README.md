@@ -1,4 +1,4 @@
-# AppStore Info API
+# AppStore Top Rank API
 ## Goal
 
 Create a REST API that pulls the Apple App Store top lists from US and provides additional metadata information for each of the ids returned via Apple lookup API together with a simple aggregation functionality.
