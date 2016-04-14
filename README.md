@@ -15,7 +15,7 @@ Create a REST API that pulls the Apple App Store top lists from US and provides 
 * Rspec to Test the application (Rspec)
 * Minimize the http request calls to api where possible
 * Consider as many possible inputs as possible and test for edge cases
-* Develop the application using the best software development practices Quality of the code is the key.
+* Develop the application using the best software development practices. Quality of the code is the key.
 
 ## Solution
 
